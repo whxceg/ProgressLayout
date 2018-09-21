@@ -4,8 +4,6 @@ group='com.github.whxceg'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
