@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.sam.lib.progresslayout.ProgressLayout;
 import com.sam.lib.progresslayout.DownloadProgressButton;
+import com.sam.lib.progresslayout.SimpleProgressClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,20 +26,37 @@ public class MainActivity extends AppCompatActivity {
         mProgressStateLayout = (DownloadProgressButton) findViewById(R.id.psl);
         mProgressStateLayout.setOnProgressClickListener(new DownloadProgressButton.OnProgressClickListener() {
             @Override
-            public void onStartClick() {
+            public void onStartClick(View view) {
                 startDownload();
             }
 
             @Override
-            public void onDownloadClick() {
+            public void onDownloadClick(View view) {
                 Toast.makeText(MainActivity.this, "正在下载", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFinishClick() {
+            public void onFinishClick(View view) {
                 Toast.makeText(MainActivity.this, "打开", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        mProgressStateLayout.setOnProgressClickListener(new SimpleProgressClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        }, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        }, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        }));
     }
 
 
@@ -83,4 +101,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

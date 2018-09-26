@@ -202,19 +202,24 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
     @Override
     public void onClick(View v) {
         if (mState == STATE_INIT) {
-            setState(STATE_DOWN);
-            if (mListener != null) mListener.onStartClick();
+            if (mListener != null) mListener.onStartClick(this);
         } else if (mState == STATE_FINISH) {
-            if (mListener != null) mListener.onFinishClick();
+            if (mListener != null) mListener.onFinishClick(this);
         } else if (mState == STATE_DOWN) {
-            if (mListener != null) mListener.onDownloadClick();
+            if (mListener != null) mListener.onDownloadClick(this);
         }
 
     }
 
     public void setState(@State int state) {
-        this.mState = state;
-        postInvalidate();
+        if (this.mState != state) {
+            this.mState = state;
+            postInvalidate();
+        }
+    }
+
+    public int getState() {
+        return mState;
     }
 
     public void setProgress(@IntRange(from = 0, to = 100) int progress) {
@@ -243,11 +248,11 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
     }
 
     public interface OnProgressClickListener {
-        void onStartClick();
+        void onStartClick(View view);
 
-        void onDownloadClick();
+        void onDownloadClick(View view);
 
-        void onFinishClick();
+        void onFinishClick(View view);
     }
 
     @Nullable
