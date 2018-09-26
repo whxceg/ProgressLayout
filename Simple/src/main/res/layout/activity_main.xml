@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.sam.lib.progresslayout.ProgressLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.sam.lib.progresslayout.ProgressLayout
         android:id="@+id/pl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="5dp"
-        app:stroke="0.5px"
-        app:cornerRadius="5dp" />
+        app:cornerRadius="5dp"
+        app:stroke="0.5px" />
 
     <Button
         android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="start" />
+
+    <com.sam.lib.progresslayout.DownloadProgressButton
+        android:id="@+id/psl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        app:psCornerRadius="10dp"
+        app:psDownloadText=""
+        app:psStroke="0.5dp" />
 
 </LinearLayout>

@@ -7,4 +7,25 @@
         <attr name="cornerRadius" format="dimension" />
         <attr name="stroke" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="DownloadProgressButton">
+        <attr name="psCornerRadius" format="dimension" />
+        <attr name="psStroke" format="dimension" />
+        <attr name="psInitTextColor" format="color" />
+        <attr name="psInitStrokeColor" format="color" />
+        <attr name="psInitBackgroundColor" format="color" />
+
+        <attr name="psDownloadTextColor" format="color" />
+        <attr name="psDownloadStrokeColor" format="color" />
+        <attr name="psDownloadBackgroundColor" format="color" />
+        <attr name="psDownloadProgressColor" format="color" />
+
+        <attr name="psFinishTextColor" format="color" />
+        <attr name="psFinishStrokeColor" format="color" />
+        <attr name="psFinishBackgroundColor" format="color" />
+
+        <attr name="psInitText" format="string" />
+        <attr name="psDownloadText" format="string" />
+        <attr name="psFinishText" format="string" />
+    </declare-styleable>
+
 </resources>
