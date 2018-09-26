@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ProgressLayout">
-        <attr name="progressColor" format="color" />
-        <attr name="backgroundColor" format="color" />
-        <attr name="strokeColor" format="color" />
-        <attr name="cornerRadius" format="dimension" />
-        <attr name="stroke" format="dimension" />
+        <attr name="progressColor" format="reference|color" />
+        <attr name="backgroundColor" format="reference|color" />
+        <attr name="strokeColor" format="reference|color" />
+        <attr name="cornerRadius" format="reference|dimension" />
+        <attr name="stroke" format="reference|dimension" />
     </declare-styleable>
     <declare-styleable name="DownloadProgressButton">
-        <attr name="psCornerRadius" format="dimension" />
-        <attr name="psStroke" format="dimension" />
-        <attr name="psInitTextColor" format="color" />
-        <attr name="psInitStrokeColor" format="color" />
-        <attr name="psInitBackgroundColor" format="color" />
+        <attr name="psCornerRadius" format="reference|dimension" />
+        <attr name="psStroke" format="reference|dimension" />
+        <attr name="psInitTextColor" format="reference|color" />
+        <attr name="psInitStrokeColor" format="reference|color" />
+        <attr name="psInitBackgroundColor" format="reference|color" />
 
-        <attr name="psDownloadTextColor" format="color" />
-        <attr name="psDownloadStrokeColor" format="color" />
-        <attr name="psDownloadBackgroundColor" format="color" />
-        <attr name="psDownloadProgressColor" format="color" />
+        <attr name="psDownloadTextColor" format="reference|color" />
+        <attr name="psDownloadStrokeColor" format="reference|color" />
+        <attr name="psDownloadBackgroundColor" format="reference|color" />
+        <attr name="psDownloadProgressColor" format="reference|color" />
 
-        <attr name="psFinishTextColor" format="color" />
-        <attr name="psFinishStrokeColor" format="color" />
-        <attr name="psFinishBackgroundColor" format="color" />
+        <attr name="psFinishTextColor" format="reference|color" />
+        <attr name="psFinishStrokeColor" format="reference|color" />
+        <attr name="psFinishBackgroundColor" format="reference|color" />
 
-        <attr name="psInitText" format="string" />
-        <attr name="psDownloadText" format="string" />
-        <attr name="psFinishText" format="string" />
+        <attr name="psInitText" format="reference|string" />
+        <attr name="psDownloadText" format="reference|string" />
+        <attr name="psFinishText" format="reference|string" />
+
+        <attr name="psInitTextSize" format="reference|dimension" />
+        <attr name="psDownloadTextSize" format="reference|dimension" />
+        <attr name="psFinishTextSize" format="reference|dimension" />
+
     </declare-styleable>
 
 </resources>

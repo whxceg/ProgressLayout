@@ -54,6 +54,10 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
     private String mFinishText;
     private String mDownloadText;
 
+    private int mInitTextSize;
+    private int mFinishTextSize;
+    private int mDownloadTextSize;
+
     private @State
     int mState = STATE_INIT;
 
@@ -100,6 +104,10 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mDownloadText = ta.getString(R.styleable.DownloadProgressButton_psDownloadText);
         mFinishText = ta.getString(R.styleable.DownloadProgressButton_psFinishText);
 
+        mInitTextSize = ta.getDimensionPixelSize(R.styleable.DownloadProgressButton_psInitTextSize, 28);
+        mDownloadTextSize = ta.getDimensionPixelSize(R.styleable.DownloadProgressButton_psDownloadTextSize, 28);
+        mFinishTextSize = ta.getDimensionPixelSize(R.styleable.DownloadProgressButton_psFinishTextSize, 28);
+
         ta.recycle();
 
         if (mInitText == null) mInitText = "下载";
@@ -144,6 +152,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         canvas.drawRoundRect(mBackgroundRect, mCornerRadius, mCornerRadius, mStrokePaint);
 
         mTextPaint.setColor(mInitTextColor);
+        mTextPaint.setTextSize(mInitTextSize);
         float width = mTextPaint.measureText(mInitText);
         canvas.drawText(mInitText, getMeasuredWidth() / 2 - width / 2, getMeasuredHeight() / 2 - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
     }
@@ -159,6 +168,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         canvas.drawRoundRect(mBackgroundRect, mCornerRadius, mCornerRadius, mStrokePaint);
 
         mTextPaint.setColor(mDownloadTextColor);
+        mTextPaint.setTextSize(mDownloadTextSize);
         int progress = (int) (mProgressPercent * 100);
 
         String progressText = String.format(mDownloadText, progress);
@@ -184,6 +194,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         canvas.drawRoundRect(mBackgroundRect, mCornerRadius, mCornerRadius, mStrokePaint);
 
         mTextPaint.setColor(mFinishTextColor);
+        mTextPaint.setTextSize(mFinishTextSize);
         float width = mTextPaint.measureText(mFinishText);
         canvas.drawText(mFinishText, getMeasuredWidth() / 2 - width / 2, getMeasuredHeight() / 2 - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
     }
@@ -262,6 +273,9 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         parcelable.mInitText = mInitText;
         parcelable.mFinishText = mFinishText;
         parcelable.mDownloadText = mDownloadText;
+        parcelable.mInitTextSize = mInitTextSize;
+        parcelable.mFinishTextSize = mFinishTextSize;
+        parcelable.mDownloadTextSize = mDownloadTextSize;
         parcelable.mState = mState;
         return parcelable;
     }
@@ -289,6 +303,10 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
             mInitText = parcelable.mInitText;
             mFinishText = parcelable.mFinishText;
             mDownloadText = parcelable.mDownloadText;
+
+            mInitTextSize = parcelable.mInitTextSize;
+            mFinishTextSize = parcelable.mFinishTextSize;
+            mDownloadTextSize = parcelable.mDownloadTextSize;
             mState = parcelable.mState;
             postInvalidate();
         }
@@ -312,6 +330,9 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         private String mInitText;
         private String mFinishText;
         private String mDownloadText;
+        private int mInitTextSize;
+        private int mFinishTextSize;
+        private int mDownloadTextSize;
         private int mState;
 
         StateSave() {
@@ -334,6 +355,9 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
             mInitText = in.readString();
             mFinishText = in.readString();
             mDownloadText = in.readString();
+            mInitTextSize = in.readInt();
+            mFinishTextSize = in.readInt();
+            mDownloadTextSize = in.readInt();
             mState = in.readInt();
         }
 
@@ -360,6 +384,9 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
             dest.writeString(mInitText);
             dest.writeString(mFinishText);
             dest.writeString(mDownloadText);
+            dest.writeInt(mInitTextSize);
+            dest.writeInt(mFinishTextSize);
+            dest.writeInt(mDownloadTextSize);
             dest.writeInt(mState);
         }
 
