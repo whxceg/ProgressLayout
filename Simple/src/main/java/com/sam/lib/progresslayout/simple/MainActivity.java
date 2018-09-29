@@ -5,13 +5,13 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
 
-import com.sam.lib.progresslayout.ProgressLayout;
 import com.sam.lib.progresslayout.DownloadProgressButton;
-import com.sam.lib.progresslayout.SimpleProgressClickListener;
+import com.sam.lib.progresslayout.ProgressLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,22 +41,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        mProgressStateLayout.setOnProgressClickListener(new SimpleProgressClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        }, new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        }, new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        }));
     }
 
 
@@ -77,16 +61,17 @@ public class MainActivity extends AppCompatActivity {
         });
         va.setDuration(10000);
         va.setInterpolator(new AccelerateDecelerateInterpolator());
-        va.start();
         va.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
+                mProgressStateLayout.setState(DownloadProgressButton.State.STATE_DOWN);
+                Log.e("sam", "onAnimationStart: ");
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 mProgressStateLayout.setState(DownloadProgressButton.State.STATE_FINISH);
+                Log.e("sam", "onAnimationEnd: ");
             }
 
             @Override
@@ -99,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        va.start();
 
     }
 

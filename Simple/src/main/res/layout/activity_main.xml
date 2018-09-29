@@ -27,7 +27,6 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         app:psCornerRadius="10dp"
-        app:psInitText="@string/app_name"
         app:psDownloadText="%d%%"
         app:psFinishTextSize="14sp"
         app:psInitTextSize="14sp"
