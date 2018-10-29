@@ -122,6 +122,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mBackgroundPaint.setAntiAlias(true);
 
         mTextPaint.setTextSize(20);
+        mTextPaint.setAntiAlias(true);
         setOnClickListener(this);
     }
 
