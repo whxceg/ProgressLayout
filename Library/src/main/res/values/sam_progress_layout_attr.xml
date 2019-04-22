@@ -18,6 +18,7 @@
         <attr name="psDownloadStrokeColor" format="reference|color" />
         <attr name="psDownloadBackgroundColor" format="reference|color" />
         <attr name="psDownloadProgressColor" format="reference|color" />
+        <attr name="psDownloadedTextColor" format="reference|color" />
 
         <attr name="psFinishTextColor" format="reference|color" />
         <attr name="psFinishStrokeColor" format="reference|color" />

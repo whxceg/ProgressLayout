@@ -42,6 +42,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
     private int mDownloadStrokeColor;
     private int mDownloadBackgroundColor;
     private int mDownloadTextColor;
+    private int mDownloadedTextColor;
     private int mDownloadProgressColor;
 
     private float mStrokeWidth;
@@ -88,6 +89,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mInitBackgroundColor = ta.getColor(R.styleable.DownloadProgressButton_psInitBackgroundColor, Color.parseColor("#F1FAFF"));
 
         mDownloadTextColor = ta.getColor(R.styleable.DownloadProgressButton_psDownloadTextColor, Color.parseColor("#3262DE"));
+        mDownloadedTextColor = ta.getColor(R.styleable.DownloadProgressButton_psDownloadedTextColor, -1);
         mDownloadStrokeColor = ta.getColor(R.styleable.DownloadProgressButton_psDownloadStrokeColor, Color.parseColor("#3262DE"));
         mDownloadBackgroundColor = ta.getColor(R.styleable.DownloadProgressButton_psDownloadBackgroundColor, Color.parseColor("#F1FAFF"));
         mDownloadProgressColor = ta.getColor(R.styleable.DownloadProgressButton_psDownloadProgressColor, Color.parseColor("#E5F2FA"));
@@ -152,10 +154,11 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mBackgroundRect.set(mStrokeWidth, mStrokeWidth, getMeasuredWidth() - mStrokeWidth, getMeasuredHeight() - mStrokeWidth);
         canvas.drawRoundRect(mBackgroundRect, mCornerRadius, mCornerRadius, mStrokePaint);
 
+        mTextPaint.setShader(null);
         mTextPaint.setColor(mInitTextColor);
         mTextPaint.setTextSize(mInitTextSize);
         float width = mTextPaint.measureText(mInitText);
-        canvas.drawText(mInitText, getMeasuredWidth() / 2 - width / 2, getMeasuredHeight() / 2 - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        canvas.drawText(mInitText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
     }
 
     private void drawDownload(Canvas canvas) {
@@ -168,13 +171,39 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mBackgroundRect.set(mStrokeWidth, mStrokeWidth, getMeasuredWidth() - mStrokeWidth, getMeasuredHeight() - mStrokeWidth);
         canvas.drawRoundRect(mBackgroundRect, mCornerRadius, mCornerRadius, mStrokePaint);
 
-        mTextPaint.setColor(mDownloadTextColor);
-        mTextPaint.setTextSize(mDownloadTextSize);
         int progress = (int) (mProgressPercent * 100);
-
         String progressText = String.format(mDownloadText, progress);
         float width = mTextPaint.measureText(progressText);
-        canvas.drawText(progressText, getMeasuredWidth() / 2 - width / 2, getMeasuredHeight() / 2 - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+
+
+        if (mDownloadedTextColor == -1) {
+            mTextPaint.setShader(null);
+            mTextPaint.setColor(mDownloadTextColor);
+            mTextPaint.setTextSize(mDownloadTextSize);
+        } else {
+            float w = getMeasuredWidth();
+            //进度条压过距离
+            float coverlength = w * mProgressPercent;
+            //开始渐变指示器
+            float indicator1 = w / 2 - width / 2f;
+            //结束渐变指示器
+            float indicator2 = w / 2 + width / 2f;
+            //文字变色部分的距离
+            float coverTextLength = width / 2f - w / 2 + coverlength;
+            float textProgress = coverTextLength / width;
+            if (coverlength <= indicator1) {
+                mTextPaint.setShader(null);
+                mTextPaint.setColor(mDownloadTextColor);
+            } else if (indicator1 < coverlength && coverlength <= indicator2) {
+                LinearGradient mProgressTextGradient = new LinearGradient(indicator1, 0, indicator2, 0, new int[]{mDownloadedTextColor, mDownloadTextColor}, new float[]{textProgress + 0.019f, textProgress + 0.020f}, Shader.TileMode.CLAMP);
+                mTextPaint.setShader(mProgressTextGradient);
+            } else {
+                mTextPaint.setShader(null);
+                mTextPaint.setColor(mDownloadedTextColor);
+            }
+        }
+
+        canvas.drawText(progressText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
     }
 
     private LinearGradient shader() {
@@ -194,10 +223,11 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mBackgroundRect.set(mStrokeWidth, mStrokeWidth, getMeasuredWidth() - mStrokeWidth, getMeasuredHeight() - mStrokeWidth);
         canvas.drawRoundRect(mBackgroundRect, mCornerRadius, mCornerRadius, mStrokePaint);
 
+        mTextPaint.setShader(null);
         mTextPaint.setColor(mFinishTextColor);
         mTextPaint.setTextSize(mFinishTextSize);
         float width = mTextPaint.measureText(mFinishText);
-        canvas.drawText(mFinishText, getMeasuredWidth() / 2 - width / 2, getMeasuredHeight() / 2 - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        canvas.drawText(mFinishText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
     }
 
     @Override
@@ -270,6 +300,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         parcelable.mDownloadStrokeColor = mDownloadStrokeColor;
         parcelable.mDownloadBackgroundColor = mDownloadBackgroundColor;
         parcelable.mDownloadTextColor = mDownloadTextColor;
+        parcelable.mDownloadedTextColor = mDownloadedTextColor;
         parcelable.mDownloadProgressColor = mDownloadProgressColor;
 
         parcelable.mStrokeWidth = mStrokeWidth;
@@ -300,6 +331,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
             mDownloadStrokeColor = parcelable.mDownloadStrokeColor;
             mDownloadBackgroundColor = parcelable.mDownloadBackgroundColor;
             mDownloadTextColor = parcelable.mDownloadTextColor;
+            mDownloadedTextColor = parcelable.mDownloadedTextColor;
             mDownloadProgressColor = parcelable.mDownloadProgressColor;
 
             mStrokeWidth = parcelable.mStrokeWidth;
@@ -328,6 +360,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         private int mDownloadStrokeColor;
         private int mDownloadBackgroundColor;
         private int mDownloadTextColor;
+        private int mDownloadedTextColor;
         private int mDownloadProgressColor;
         private float mStrokeWidth;
         private float mCornerRadius;
@@ -355,6 +388,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
             mDownloadStrokeColor = in.readInt();
             mDownloadBackgroundColor = in.readInt();
             mDownloadTextColor = in.readInt();
+            mDownloadedTextColor = in.readInt();
             mDownloadProgressColor = in.readInt();
             mStrokeWidth = in.readFloat();
             mCornerRadius = in.readFloat();
@@ -385,6 +419,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
             dest.writeInt(mDownloadStrokeColor);
             dest.writeInt(mDownloadBackgroundColor);
             dest.writeInt(mDownloadTextColor);
+            dest.writeInt(mDownloadedTextColor);
             dest.writeInt(mDownloadProgressColor);
             dest.writeFloat(mStrokeWidth);
             dest.writeFloat(mCornerRadius);
