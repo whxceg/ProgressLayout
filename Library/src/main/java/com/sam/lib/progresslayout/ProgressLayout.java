@@ -102,29 +102,36 @@ public class ProgressLayout extends RelativeLayout {
     @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
-        super.onSaveInstanceState();
-        return new ProgressSaveState(mProgressPercent);
+        return new ProgressSaveState(super.onSaveInstanceState(), mProgressPercent);
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
+        if (state instanceof ProgressSaveState) {
+            ProgressSaveState parcelable = (ProgressSaveState) state;
+            super.onRestoreInstanceState(parcelable.getSuperState());
+            mProgressPercent = parcelable.progress;
+            postInvalidate();
+        }
 
     }
 
-    static class ProgressSaveState implements Parcelable {
+    static class ProgressSaveState extends BaseSavedState {
         private float progress;
 
-        ProgressSaveState(float progress) {
-            this.progress = progress;
+        ProgressSaveState(Parcel in) {
+            super(in);
+            progress = in.readFloat();
         }
 
-        ProgressSaveState(Parcel in) {
-            progress = in.readFloat();
+        ProgressSaveState(Parcelable superState, float progress) {
+            super(superState);
+            this.progress = progress;
         }
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
+            super.writeToParcel(parcel, i);
             parcel.writeFloat(progress);
         }
 

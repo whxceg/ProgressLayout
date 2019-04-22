@@ -259,8 +259,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
     @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
-        super.onSaveInstanceState();
-        StateSave parcelable = new StateSave();
+        StateSave parcelable = new StateSave(super.onSaveInstanceState());
         parcelable.mInitTextColor = mInitTextColor;
         parcelable.mInitStrokeColor = mInitStrokeColor;
         parcelable.mInitBackgroundColor = mInitBackgroundColor;
@@ -288,9 +287,9 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
         if (state instanceof StateSave) {
             StateSave parcelable = (StateSave) state;
+            super.onRestoreInstanceState(parcelable.getSuperState());
             mInitTextColor = parcelable.mInitTextColor;
             mInitStrokeColor = parcelable.mInitStrokeColor;
             mInitBackgroundColor = parcelable.mInitBackgroundColor;
@@ -319,7 +318,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
 
     }
 
-    private static class StateSave implements Parcelable {
+    private static class StateSave extends BaseSavedState {
         private int mInitTextColor;
         private int mInitStrokeColor;
         private int mInitBackgroundColor;
@@ -341,10 +340,12 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         private int mDownloadTextSize;
         private int mState;
 
-        StateSave() {
+        StateSave(Parcelable in) {
+            super(in);
         }
 
         StateSave(Parcel in) {
+            super(in);
             mInitTextColor = in.readInt();
             mInitStrokeColor = in.readInt();
             mInitBackgroundColor = in.readInt();
@@ -374,6 +375,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
             dest.writeInt(mInitTextColor);
             dest.writeInt(mInitStrokeColor);
             dest.writeInt(mInitBackgroundColor);
