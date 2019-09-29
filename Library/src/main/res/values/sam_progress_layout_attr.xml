@@ -35,6 +35,11 @@
         <attr name="psInitDrawableStart" format="reference" />
         <attr name="psFinishDrawableStart" format="reference" />
         <attr name="psDrawablePadding" format="reference|dimension" />
+        <attr name="psState" format="enum">
+            <enum name="init" value="0" />
+            <enum name="download" value="1" />
+            <enum name="finish" value="2" />
+        </attr>
 
     </declare-styleable>
 
