@@ -118,7 +118,7 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mFinishTextSize = ta.getDimensionPixelSize(R.styleable.DownloadProgressButton_psFinishTextSize, 28);
 
         mInitDrawableStart = ta.getDrawable(R.styleable.DownloadProgressButton_psInitDrawableStart);
-        mFinishDrawableStart = ta.getDrawable(R.styleable.DownloadProgressButton_psInitDrawableStart);
+        mFinishDrawableStart = ta.getDrawable(R.styleable.DownloadProgressButton_psFinishDrawableStart);
         mDrawablePadding = ta.getDimension(R.styleable.DownloadProgressButton_psDrawablePadding, 0);
 
         mState = ta.getInt(R.styleable.DownloadProgressButton_psState, 0);
