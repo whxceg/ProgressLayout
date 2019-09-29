@@ -2,12 +2,15 @@ package com.sam.lib.progresslayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
@@ -38,6 +41,10 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
     private int mFinishTextColor;
     private int mFinishStrokeColor;
     private int mFinishBackgroundColor;
+
+    private float mDrawablePadding;
+    private Drawable mFinishDrawableStart;
+    private Drawable mInitDrawableStart;
 
     private int mDownloadStrokeColor;
     private int mDownloadBackgroundColor;
@@ -110,6 +117,10 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mDownloadTextSize = ta.getDimensionPixelSize(R.styleable.DownloadProgressButton_psDownloadTextSize, 28);
         mFinishTextSize = ta.getDimensionPixelSize(R.styleable.DownloadProgressButton_psFinishTextSize, 28);
 
+        mInitDrawableStart = ta.getDrawable(R.styleable.DownloadProgressButton_psInitDrawableStart);
+        mFinishDrawableStart = ta.getDrawable(R.styleable.DownloadProgressButton_psInitDrawableStart);
+        mDrawablePadding = ta.getDimension(R.styleable.DownloadProgressButton_psDrawablePadding, 0);
+
         ta.recycle();
 
         if (mInitText == null) mInitText = "下载";
@@ -158,7 +169,16 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mTextPaint.setColor(mInitTextColor);
         mTextPaint.setTextSize(mInitTextSize);
         float width = mTextPaint.measureText(mInitText);
-        canvas.drawText(mInitText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        if (mInitDrawableStart != null) {
+            Bitmap bitmap = drawableToBitmap(mInitDrawableStart, 0, 0);
+            float drawableStart = (getMeasuredWidth() - bitmap.getWidth() - width - mDrawablePadding) / 2;
+            float drawableTop = (getMeasuredHeight() - bitmap.getHeight()) / 2;
+            canvas.drawBitmap(bitmap, drawableStart, drawableTop, mTextPaint);
+            canvas.drawText(mInitText, drawableStart + bitmap.getWidth() + mDrawablePadding, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        } else {
+            canvas.drawText(mInitText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        }
+
     }
 
     private void drawDownload(Canvas canvas) {
@@ -227,7 +247,16 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
         mTextPaint.setColor(mFinishTextColor);
         mTextPaint.setTextSize(mFinishTextSize);
         float width = mTextPaint.measureText(mFinishText);
-        canvas.drawText(mFinishText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+
+        if (mFinishDrawableStart != null) {
+            Bitmap bitmap = drawableToBitmap(mFinishDrawableStart, 0, 0);
+            float drawableStart = (getMeasuredWidth() - bitmap.getWidth() - width - mDrawablePadding) / 2;
+            float drawableTop = (getMeasuredHeight() - bitmap.getHeight()) / 2;
+            canvas.drawBitmap(bitmap, drawableStart, drawableTop, mTextPaint);
+            canvas.drawText(mFinishText, drawableStart + bitmap.getWidth() + mDrawablePadding, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        } else {
+            canvas.drawText(mFinishText, getMeasuredWidth() / 2f - width / 2, getMeasuredHeight() / 2f - (mTextPaint.descent() / 2 + mTextPaint.ascent() / 2), mTextPaint);
+        }
     }
 
     @Override
@@ -444,6 +473,17 @@ public class DownloadProgressButton extends RelativeLayout implements View.OnCli
                 return new StateSave[size];
             }
         };
+    }
+
+    public Bitmap drawableToBitmap(Drawable drawable, int width, int height) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
 }

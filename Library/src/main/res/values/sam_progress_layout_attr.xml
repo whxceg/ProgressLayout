@@ -32,6 +32,10 @@
         <attr name="psDownloadTextSize" format="reference|dimension" />
         <attr name="psFinishTextSize" format="reference|dimension" />
 
+        <attr name="psInitDrawableStart" format="reference" />
+        <attr name="psFinishDrawableStart" format="reference" />
+        <attr name="psDrawablePadding" format="reference|dimension" />
+
     </declare-styleable>
 
 </resources>

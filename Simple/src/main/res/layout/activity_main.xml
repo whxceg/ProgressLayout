@@ -28,7 +28,10 @@
         android:layout_margin="5dp"
         app:psCornerRadius="10dp"
         app:psDownloadText="%d%%"
+        app:psDrawablePadding="10dp"
+        app:psFinishDrawableStart="@drawable/epub2"
         app:psFinishTextSize="14sp"
+        app:psInitDrawableStart="@drawable/epub"
         app:psInitTextSize="14sp"
         app:psStroke="0.5dp" />
 
